@@ -1,14 +1,47 @@
 ready = function () {
   var exitApp = function (e) {
-    alert(e)
+    if (e && e !== 'OK') {
+      alert(e)
+    }
     navigator.app.exitApp();
   }
+  
   navigator.camera.getPicture(exitApp, exitApp,
   {
-      destinationType: Camera.DestinationType.FILE_URI,
-      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-      popoverOptions: new CameraPopoverOptions(300, 300, 100, 100, Camera.PopoverArrowDirection.ARROW_ANY, 300, 600)
+      destinationType: Camera.DestinationType.DATA_URL
   });
+  
+  // -----------------------------------------
+  return false
+  
+  //alert('AAA')
+  
+  function setOptions(srcType) {
+      var options = {
+          // Some common settings are 20, 50, and 100
+          quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL
+      }
+      return options;
+  }
+  
+  window.alert(JSON.stringify(Camera.PictureSourceType))
+  var srcType = Camera.PictureSourceType.CAMERA;
+  var options = setOptions(srcType);
+  //window.alert(JSON.stringify(options))
+  //var func = createNewFileEntry;
+  //window.alert(navigator.camera.getPicture)
+  navigator.camera.getPicture(function cameraSuccess(imageUri) {
+
+      //displayImage(imageUri);
+      // You may choose to copy the picture, save it somewhere, or upload.
+      //func(imageUri);
+      exitApp()
+  }, function cameraError(error) {
+      alert(error)
+      //console.debug("Unable to obtain picture: " + error, "app");
+    navigator.app.exitApp();
+  }, options);
   
   return
   var _config = {
